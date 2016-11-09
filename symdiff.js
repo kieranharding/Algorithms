@@ -5,7 +5,7 @@ may not be. */
 
 // This solution passes all tests but is boring (just brute force compare)
 // and inefficient (runs through all items in arr2, even if they have been
-// eliminated by arr1.) These tests took 24 ms
+// eliminated by arr1.) These tests took 24 ms.
 // An improvement opportunity: when the first loop matches in arr2, slice it out.
 // Then can concat arr2 to result after the first loop and cut the time in half.
 function sym (args) {
