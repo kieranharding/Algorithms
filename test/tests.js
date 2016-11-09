@@ -1,8 +1,9 @@
 var should = require('chai').should()
 var validate = require('../telephoneCheck')
 var diff = require('../symdiff')
+var change = require('../exactchange')
 
-describe('telephoneCheck', function () {
+describe('Telephone Number Check', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
     validate('555-555-5555').should.be.a('boolean')
   })
@@ -86,7 +87,7 @@ describe('telephoneCheck', function () {
   })
 })
 
-describe.only('symdiff', function () {
+describe('Symmetric Difference', function () {
   it('should return [3, 4, 5] given ([1, 2, 3], [5, 2, 1, 4])', function () {
     diff([1, 2, 3], [5, 2, 1, 4]).should.eql([3, 4, 5])
   })
@@ -116,5 +117,32 @@ describe.only('symdiff', function () {
   })
   it('should contain 8 elements given ([3, 3, 3, 2, 5], [2, 1, 5, 7], [3, 4, 6, 6], [1, 2, 3], [5, 3, 9, 8], [1])', function () {
     diff([3, 3, 3, 2, 5], [2, 1, 5, 7], [3, 4, 6, 6], [1, 2, 3], [5, 3, 9, 8], [1]).should.have.length(8)
+  })
+})
+
+describe.only('Exact Change', function () {
+  it('should return an array', function () {
+    change(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]).should.be.an('array')
+  })
+  it('should return a string', function () {
+    change(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]).should.be.a('string')
+  })
+  it('should return a string', function () {
+    change(19.50, 20.00, [["PENNY", 0.50], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]).should.be.a('string')
+  })
+  it('should return [["QUARTER", 0.50]]', function () {
+    change(19.50, 20.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]).should.eql([["QUARTER", 0.50]])
+  })
+  it('should return [["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]]', function () {
+    change(3.26, 100.00, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.10], ["QUARTER", 4.25], ["ONE", 90.00], ["FIVE", 55.00], ["TEN", 20.00], ["TWENTY", 60.00], ["ONE HUNDRED", 100.00]]).should.eql([["TWENTY", 60.00], ["TEN", 20.00], ["FIVE", 15.00], ["ONE", 1.00], ["QUARTER", 0.50], ["DIME", 0.20], ["PENNY", 0.04]])
+  })
+  it('should return "Insufficient Funds"', function () {
+    change(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]).should.equal("Insufficient Funds")
+  })
+  it('should return "Insufficient Funds"', function () {
+    change(19.50, 20.00, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1.00], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]).should.equal("Insufficient Funds")
+  })
+  it('should return "Closed"', function () {
+    change(19.50, 20.00, [["PENNY", 0.50], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]).should.equal("Closed")
   })
 })
