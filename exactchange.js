@@ -14,14 +14,6 @@ than the change due or if exact change cannot be made with the cash.
 Return the string "Closed" if cash-in-drawer
 is equal to the change due.*/
 
-function getKey (obj, val) {
-  for (var key in obj) {
-    if (obj[key] === val) {
-      return key
-    }
-  }
-}
-
 function checkCashRegister (price, cash, cid) {
   var change = cash - price
   var totalcid = cid.map(function (unit) {
@@ -30,8 +22,10 @@ function checkCashRegister (price, cash, cid) {
     return a + b
   })
 
-  // Which denominations are actually available in cid?
-  var denominations = {
+  if (totalcid === change) return 'Closed'
+
+  // To convert values to numbers
+  var hashValues = {
     'PENNY': 0.01,
     'NICKEL': 0.05,
     'DIME': 0.1,
@@ -43,45 +37,37 @@ function checkCashRegister (price, cash, cid) {
     'HUNDRED': 100
   }
 
-  // Reverse it so that change is always returned in the largest
-  // possible denominations.
-  // var all_denominations = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100]
-
-  var all_denominations = []
-  for (var key in denominations) {
-    if (denominations.hasOwnProperty(key)) {
-      all_denominations.push(denominations[key])
-    }
-  }
-  var my_denominations = all_denominations.sort().filter(function (den, idx) {
-    return (cid[idx][1] !== 0)
-  }).reverse()
-
-  // I'm calling everything a coin.
-  var coins = cid.map(function (unit, idx) {
-    return Math.round(unit[1] / all_denominations[idx])
+  // Ordered list of denomination keys that aren't empty, largest to smallest value
+  var vals = cid.filter(function (val) {
+    return (val[1] > 0)
+  }).map(function (val) {
+    return val[0]
   }).reverse()
 
   var result = []
+  vals.forEach(function (name) {
+    var val = hashValues[name]
+    if (val <= change) {
+      var count = Math.round(cid.filter(function (el) {
+        return (el[0] === name)
+      })[0][1])
+      count /= val
 
-  my_denominations.forEach(function (den, idx) {
-    if (change >= den) {
-      // Use as many of the given denomination as will fit
-      for (var i = coins[idx]; i > 0; i--) {
-        if (change >= den * i) {
-          result.push([den, den * i])
-          change -= den * i
+      for (var i = Math.round(count); i > 0; i--) {
+        if (val * i <= change) {
+          result.push([name, val * i])
+          change = Math.round((change - val * i) * 100) / 100
           break
         }
       }
     }
   })
 
-  if (totalcid < change) return 'Insufficient Funds'
-  if (totalcid === change) return 'Closed'
-  return result.map(function (a) {
-    a[0] = getKey(cid, a[0])
-  })
+  if (change) {
+    return 'Insufficient Funds'
+  } else {
+    return result
+  }
 }
 
 module.exports = checkCashRegister
