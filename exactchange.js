@@ -48,14 +48,17 @@ function checkCashRegister (price, cash, cid) {
   vals.forEach(function (name) {
     var val = hashValues[name]
     if (val <= change) {
+      // How many coins/bills in the drawer for this denomination?
       var count = Math.round(cid.filter(function (el) {
         return (el[0] === name)
       })[0][1])
       count /= val
 
+      // How many coins/bills in the drawer for this denomination?
       for (var i = Math.round(count); i > 0; i--) {
         if (val * i <= change) {
           result.push([name, val * i])
+          // This little mostrosity to round to 2 decimal places
           change = Math.round((change - val * i) * 100) / 100
           break
         }
