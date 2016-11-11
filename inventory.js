@@ -6,31 +6,30 @@
 
 function itemExists (arr, name) {
   return (arr.filter(function (a) {
-    return (arr[1] === name)
+    return (a[1] === name)
   }).length > 0)
 }
 
 function updateInventory (arr1, arr2) {
-    // All inventory must be accounted for or you're fired!
-    arr2.forEach(function (item) {
-      arr1 = arr1.map()
-    })
-  return arr1
+  // All inventory must be accounted for or you're fired!
+  arr2.forEach(function (item) {
+    if (itemExists(arr1, item[1])) {
+      arr1 = arr1.map(function (a) {
+        if (a[1] === item[1]) {
+          a[0] += item[0]
+        }
+        return a
+      })
+    } else {
+      arr1.push(item)
+    }
+  })
+  return arr1.sort(function (a, b) {
+    return a[1] > b[1] ? 1 : -1
+  })
 }
 
-// Example inventory lists
-var curInv = [
-    [21, 'Bowling Ball'],
-    [2, 'Dirty Sock'],
-    [1, 'Hair Pin'],
-    [5, 'Microphone']
-];
-
-var newInv = [
-    [2, 'Hair Pin'],
-    [3, 'Half-Eaten Apple'],
-    [67, 'Bowling Ball'],
-    [7, 'Toothpaste']
-]
-
-module.exports = updateInventory
+module.exports = {
+  updateInventory: updateInventory,
+  itemExists: itemExists
+}
