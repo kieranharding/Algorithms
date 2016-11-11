@@ -4,6 +4,7 @@ var diff = require('../symdiff')
 var change = require('../exactchange')
 var inv = require('../inventory.js').updateInventory
 var arrSearch = require('../inventory.js').itemExists
+var permAlone = require('../permAlone')
 
 describe('Telephone Number Check', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
@@ -150,7 +151,7 @@ describe('Exact Change', function () {
 })
 
 describe('Update Inventory', function () {
-  context.only('Main', function () {
+  context('Main', function () {
     it('should return an array', function () {
       inv(
         [
@@ -233,5 +234,40 @@ describe('Update Inventory', function () {
     it('should return false if the string is not there', function () {
       arrSearch([[21, 'Bowling Ball'], [2, 'Cat Paws']], 21).should.equal(false)
     })
+  })
+})
+
+describe.only('No Repeats Please', function () {
+  // permAlone("aab") should return a number.
+  it('should return a number', function () {
+    permAlone('aab').should.be.a('number')
+  })
+  // permAlone("aab") should return 2.
+  it('should return 2', function () {
+    permAlone('aab').should.equal(2)
+  })
+  // permAlone("aaa") should return 0.
+  it('should return 0', function () {
+    permAlone('aaa').should.equal(0)
+  })
+  // permAlone("aabb") should return 8.
+  it('should return 8', function () {
+    permAlone('aabb').should.equal(8)
+  })
+  // permAlone("abcdefa") should return 3600.
+  it('should return 3600', function () {
+    permAlone('abcdefa').should.equal(3600)
+  })
+  // permAlone("abfdefa") should return 2640.
+  it('should return 2640', function () {
+    permAlone('abfdefa').should.equal(2640)
+  })
+  // permAlone("zzzzzzzz") should return 0.
+  it('should return 0', function () {
+    permAlone('zzzzzzzz').should.equal(0)
+  })
+  // permAlone("a") should return 1.
+  it('should return 1', function () {
+    permAlone('a').should.equal(1)
   })
 })
