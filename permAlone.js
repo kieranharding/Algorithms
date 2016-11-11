@@ -18,23 +18,31 @@
     }
 
     function getPerms (arr) {
-      if (arr.length === 1) return arr
+      if (arr.length === 1) {
+        return arr
+      }
 
       var perms = []
 
       arr.forEach(function (char, idx, self) {
+        // toFirst should just be replaced with a function that returns other
         var other = toFirst(self, idx).slice(1)
-        // console.log(other)
         for (var perm of getPerms(other)) {
-          // console.log(perm)
           perms.push([char].concat(perm))
         }
       })
       return perms
     }
 
-    var result = getPerms(str.split(''))
-    console.log(result)
+    var result = getPerms(str.split('')).map(function (perm) {
+      try {
+        return perm.join('')
+      } catch (err) { // perm is a string in the case of single character arg
+        return perm
+      }
+    }).filter(function (perm) {
+      return (!/(.)\1/.test(perm))
+    }).length
     return result
   }
 
