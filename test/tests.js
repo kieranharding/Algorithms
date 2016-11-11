@@ -2,7 +2,8 @@ var should = require('chai').should()
 var validate = require('../telephoneCheck')
 var diff = require('../symdiff')
 var change = require('../exactchange')
-var inv = require('../inventory')
+var inv = require('../inventory.js').updateInventory
+var arrSearch = require('../inventory.js').itemExists
 
 describe('Telephone Number Check', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
@@ -149,7 +150,7 @@ describe('Exact Change', function () {
 })
 
 describe('Update Inventory', function () {
-  context('Main', function () {
+  context.only('Main', function () {
     it('should return an array', function () {
       inv(
         [
@@ -217,6 +218,20 @@ describe('Update Inventory', function () {
         [[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]],
         [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]
       ).should.eql([[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]])
+    })
+  })
+  context.skip('Array Search', function () {
+    it('should return true if it finds the string', function () {
+      arrSearch([[21, 'Bowling Ball'], [2, 'Dirty Sock']], 'Bowling Ball').should.equal(true)
+    })
+    it('should return true if it finds the string', function () {
+      arrSearch([[21, 'Bowling Ball'], [2, 'Dirty Sock']], 'Dirty Sock').should.equal(true)
+    })
+    it('should return false if the string is not there', function () {
+      arrSearch([[21, 'Bowling Ball'], [2, 'Cat Paws']], 'Chair Canadiens').should.equal(false)
+    })
+    it('should return false if the string is not there', function () {
+      arrSearch([[21, 'Bowling Ball'], [2, 'Cat Paws']], 21).should.equal(false)
     })
   })
 })
