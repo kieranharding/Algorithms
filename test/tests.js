@@ -1,3 +1,4 @@
+/* eslint-disable */
 var should = require('chai').should()
 var validate = require('../telephoneCheck')
 var diff = require('../symdiff')
@@ -5,8 +6,9 @@ var change = require('../exactchange')
 var inv = require('../inventory.js').updateInventory
 var arrSearch = require('../inventory.js').itemExists
 var permAlone = require('../permAlone')
+var makeFriendlyDates = require('../friendlydates')
 
-describe('Telephone Number Check', function () {
+describe('Validate US Telephone Numbers', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
     validate('555-555-5555').should.be.a('boolean')
   })
@@ -150,7 +152,7 @@ describe('Exact Change', function () {
   })
 })
 
-describe('Update Inventory', function () {
+describe('Inventory Update', function () {
   context('Main', function () {
     it('should return an array', function () {
       inv(
@@ -237,7 +239,7 @@ describe('Update Inventory', function () {
   })
 })
 
-describe.only('No Repeats Please', function () {
+describe('No Repeats Please', function () {
   // permAlone("aab") should return a number.
   it('should return a number', function () {
     permAlone('aab').should.be.a('number')
@@ -269,5 +271,36 @@ describe.only('No Repeats Please', function () {
   // permAlone("a") should return 1.
   it('should return 1', function () {
     permAlone('a').should.equal(1)
+  })
+})
+
+describe.only('Friendly Date Ranges', function () {
+  // makeFriendlyDates(["2016-07-01", "2016-07-04"]) should return ["July 1st","4th"].
+  it('should return ["July 1st", "4th"]', function () {
+    makeFriendlyDates(['2016-07-01', '2016-07-04']).should.eql(['July 1st', '4th'])
+  })
+  // makeFriendlyDates(["2016-12-01", "2017-02-03"]) should return ["December 1st","February 3rd"].
+  it('should return ["December 1st","February 3rd"]', function () {
+    makeFriendlyDates(["2016-12-01", "2017-02-03"]).should.eql(["December 1st","February 3rd"])
+  })
+  // makeFriendlyDates(["2016-12-01", "2018-02-03"]) should return ["December 1st, 2016","February 3rd, 2018"].
+  it('should return ["December 1st, 2016","February 3rd, 2018"]', function () {
+    makeFriendlyDates(["2016-12-01", "2018-02-03"]).should.eql(["December 1st, 2016","February 3rd, 2018"])
+  })
+  // makeFriendlyDates(["2017-03-01", "2017-05-05"]) should return ["March 1st, 2017","May 5th"]
+  it('should return ["March 1st, 2017","May 5th"]', function () {
+    makeFriendlyDates(["2017-03-01", "2017-05-05"]).should.eql(["March 1st, 2017","May 5th"])
+  })
+  // makeFriendlyDates(["2018-01-13", "2018-01-13"]) should return ["January 13th, 2018"].
+  it('should return ["January 13th, 2018"]', function () {
+    makeFriendlyDates(["2018-01-13", "2018-01-13"]).should.eql(["January 13th, 2018"])
+  })
+  // makeFriendlyDates(["2022-09-05", "2023-09-04"]) should return ["September 5th, 2022","September 4th"].
+  it('should return ["September 5th, 2022","September 4th"]', function () {
+    makeFriendlyDates(["2022-09-05", "2023-09-04"]).should.eql(["September 5th, 2022","September 4th"])
+  })
+  // makeFriendlyDates(["2022-09-05", "2023-09-05"]) should return ["September 5th, 2022","September 5th, 2023"]
+  it('should return ["September 5th, 2022","September 5th, 2023"]', function () {
+    makeFriendlyDates(["2022-09-05", "2023-09-05"]).should.eql(["September 5th, 2022","September 5th, 2023"])
   })
 })
