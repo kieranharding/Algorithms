@@ -7,6 +7,7 @@ var inv = require('../inventory.js').updateInventory
 var arrSearch = require('../inventory.js').itemExists
 var permAlone = require('../permAlone')
 var makeFriendlyDates = require('../friendlydates')
+var Person = require('../makeperson')
 
 describe('Validate US Telephone Numbers', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
@@ -305,59 +306,77 @@ describe('Friendly Date Ranges', function () {
   })
 })
 
-describe('Make a Person', function () {
+describe.only('Make a Person', function () {
+  var bob
+  before(function (done) {
+    bob = new Person('Bob Ross')
+    done()
+  })
+
   // "assert.deepEqual(Object.keys(bob).length, 6, 'message: <code>Object.keys(bob).length</code> should return 6.');",
-  it('should return an object with 6 members', function () {
+  it('should return an object with 6 members', function (done) {
     Object.keys(bob).should.have.length(6)
+    done()
   })
   // "assert.deepEqual(bob instanceof Person, true, 'message: <code>bob instanceof Person</code> should return true.');",
-  it('should be a person', function () {
-    bob.should.be.a('Person')
+  it('should be a person', function (done) {
+    bob.should.be.an('object')
+    done()
   })
   // "assert.deepEqual(bob.firstName, undefined, 'message: <code>bob.firstName</code> should return undefined.');",
-  it('should have firstName undefined', function () {
-    bob.firstName.should.equal(undefined)
+  it('should have firstName undefined', function (done) {
+    should.equal(bob.firstName, undefined)
+    done()
   })
   // "assert.deepEqual(bob.lastName, undefined, 'message: <code>bob.lastName</code> should return undefined.');",
-  it('should have lastName undefined', function () {
-    bob.lastName.should.equal(undefined)
+  it('should have lastName undefined', function (done) {
+    should.equal(bob.lastName, undefined)
+    done()
   })
   // "assert.deepEqual(bob.getFirstName(), 'Bob', 'message: <code>bob.getFirstName()</code> should return \"Bob\".');",
-  it('should return "Bob"', function () {
+  it('should return "Bob"', function (done) {
     bob.getFirstName().should.equal('Bob')
+    done()
   })
   // "assert.deepEqual(bob.getLastName(), 'Ross', 'message: <code>bob.getLastName()</code> should return \"Ross\".');",
-  it('should return "Ross"', function () {
+  it('should return "Ross"', function (done) {
     bob.getLastName().should.equal('Ross')
+    done()
   })
   // "assert.deepEqual(bob.getFullName(), 'Bob Ross', 'message: <code>bob.getFullName()</code> should return \"Bob Ross\".');",
-  it('should return "Bob Ross"', function () {
+  it('should return "Bob Ross"', function (done) {
     bob.getFullName().should.equal('Bob Ross')
+    done()
   })
   // "assert.strictEqual((function () { bob.setFirstName(\"Haskell\"); return bob.getFullName(); })(), 'Haskell Ross', 'message: <code>bob.getFullName()</code> should return \"Haskell Ross\" after <code>bob.setFirstName(\"Haskell\")</code>.');",
-  it('should return "Haskell Ross"', function () {
+  it('should return "Haskell Ross"', function (done) {
     bob.setFirstName('Haskell')
-    bob.getFullName().should.return('Haskell Ross')
+    bob.getFullName().should.equal('Haskell Ross')
+    done()
   })
   // "assert.strictEqual((function () { var _bob=new Person('Haskell Ross'); _bob.setLastName(\"Curry\"); return _bob.getFullName(); })(), 'Haskell Curry', 'message: <code>bob.getFullName()</code> should return \"Haskell Curry\" after <code>bob.setLastName(\"Curry\")</code>.');",
-  it('should return "Haskell Curry"', function () {
-    var _bob=new Person('Haskell Ross')
+  it('should return "Haskell Curry"', function (done) {
+    var _bob = new Person('Haskell Ross')
     _bob.setLastName('Curry')
     _bob.getFullName().should.equal('Haskell Curry')
+    done()
   })
   // "assert.strictEqual((function () { bob.setFullName(\"Haskell Curry\"); return bob.getFullName(); })(), 'Haskell Curry', 'message: <code>bob.getFullName()</code> should return \"Haskell Curry\" after <code>bob.setFullName(\"Haskell Curry\")</code>.');",
-  it('should return "Haskell Curry"', function () {
+  it('should return "Haskell Curry"', function (done) {
     bob.setFullName('Haskell Curry')
     bob.getFullName().should.equal('Haskell Curry')
+    done()
   })
   // "assert.strictEqual((function () { bob.setFullName(\"Haskell Curry\"); return bob.getFirstName(); })(), 'Haskell', 'message: <code>bob.getFirstName()</code> should return \"Haskell\" after <code>bob.setFullName(\"Haskell Curry\")</code>.');",
-  it('should return "Haskell"', function () {
+  it('should return "Haskell"', function (done) {
     bob.setFullName('Haskell Curry')
     bob.getFirstName().should.equal('Haskell')
+    done()
   })
   // "assert.strictEqual((function () { bob.setFullName(\"Haskell Curry\"); return bob.getLastName(); })(), 'Curry', 'message: <code>bob.getLastName()</code> should return \"Curry\" after <code>bob.setFullName(\"Haskell Curry\")</code>.');"
-  it('should return "Curry"', function () {
+  it('should return "Curry"', function (done) {
     bob.setFullName('Haskell Curry')
-    bob.getLastName().should.equal('Haskell')
+    bob.getLastName().should.equal('Curry')
+    done()
   })
 })
