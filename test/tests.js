@@ -8,6 +8,7 @@ var arrSearch = require('../inventory.js').itemExists
 var permAlone = require('../permAlone')
 var makeFriendlyDates = require('../friendlydates')
 var Person = require('../makeperson')
+var orbitalPeriod = require('../mapdebris')
 
 describe('Validate US Telephone Numbers', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
@@ -306,7 +307,7 @@ describe('Friendly Date Ranges', function () {
   })
 })
 
-describe.only('Make a Person', function () {
+describe('Make a Person', function () {
   var bob
   before(function (done) {
     bob = new Person('Bob Ross')
@@ -378,5 +379,16 @@ describe.only('Make a Person', function () {
     bob.setFullName('Haskell Curry')
     bob.getLastName().should.equal('Curry')
     done()
+  })
+})
+
+describe.only('Map the Debris', function () {
+  // orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}]) should return [{name: "sputnik", orbitalPeriod: 86400}].
+  it('should return [{name: "sputnik", orbitalPeriod: 86400}]', function () {
+    orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}]).should.eql([{name: "sputnik", orbitalPeriod: 86400}])
+  })
+  // orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}]) should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}].
+  it('should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}]', function () {
+    orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}]).should.eql([{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}])
   })
 })
