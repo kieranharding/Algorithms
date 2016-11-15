@@ -9,6 +9,7 @@ var permAlone = require('../permAlone')
 var makeFriendlyDates = require('../friendlydates')
 var Person = require('../makeperson')
 var orbitalPeriod = require('../mapdebris')
+var pairwise = require('../pairwise')
 
 describe('Validate US Telephone Numbers', function () {
   it('should return a boolean when passed "555-555-5555"', function () {
@@ -382,7 +383,7 @@ describe('Make a Person', function () {
   })
 })
 
-describe.only('Map the Debris', function () {
+describe('Map the Debris', function () {
   // orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}]) should return [{name: "sputnik", orbitalPeriod: 86400}].
   it('should return [{name: "sputnik", orbitalPeriod: 86400}]', function () {
     orbitalPeriod([{name : "sputnik", avgAlt : 35873.5553}]).should.eql([{name: "sputnik", orbitalPeriod: 86400}])
@@ -390,5 +391,28 @@ describe.only('Map the Debris', function () {
   // orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}]) should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}].
   it('should return [{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}]', function () {
     orbitalPeriod([{name: "iss", avgAlt: 413.6}, {name: "hubble", avgAlt: 556.7}, {name: "moon", avgAlt: 378632.553}]).should.eql([{name : "iss", orbitalPeriod: 5557}, {name: "hubble", orbitalPeriod: 5734}, {name: "moon", orbitalPeriod: 2377399}])
+  })
+})
+
+describe('Pairwise', function () {
+  // pairwise([1, 4, 2, 3, 0, 5], 7) should return 11.
+  it('should return 11 given ([1, 4, 2, 3, 0, 5], 7)', function () {
+    pairwise([1, 4, 2, 3, 0, 5], 7).should.equal(11)
+  })
+  // pairwise([1, 3, 2, 4], 4) should return 1.
+  it('should return 1 given ([1, 3, 2, 4], 4)', function () {
+    pairwise([1, 3, 2, 4], 4).should.equal(1)
+  })
+  // pairwise([1, 1, 1], 2) should return 1.
+  it('should return 1 given ([1, 1, 1], 2)', function () {
+    pairwise([1, 1, 1], 2).should.equal(1)
+  })
+  // pairwise([0, 0, 0, 0, 1, 1], 1) should return 10.
+  it('should return 10 given ([0, 0, 0, 0, 1, 1], 1)', function () {
+    pairwise([0, 0, 0, 0, 1, 1], 1).should.equal(10)
+  })
+  // pairwise([], 100) should return 0.
+  it('should return 0 given ([], 100)', function () {
+    pairwise([], 100).should.equal(0)
   })
 })
