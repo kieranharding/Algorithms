@@ -7,7 +7,7 @@ Algorithm challenges (as of Nov 15, 2016), implemented in Mocha and Chai.
 
 ## Why?
 
-A few reasons, really. I don't like working in web-based editors, for reasons.
+For fun, mostly. I don't like working in web-based editors, for reasons.
 I also wanted to learn how to write and use tests for the sake of completing the front end challenges, and this seemed more fun than following a tutorial. Finally, I felt like a change of pace so I took one.
 
 ## How?

@@ -156,89 +156,73 @@ describe('Exact Change', function () {
 })
 
 describe('Inventory Update', function () {
-  context('Main', function () {
-    it('should return an array', function () {
-      inv(
-        [
-          [21, "Bowling Ball"],
-          [2, "Dirty Sock"],
-          [1, "Hair Pin"],
-          [5, "Microphone"]
-        ],
-        [
-          [2, "Hair Pin"],
-          [3, "Half-Eaten Apple"],
-          [67, "Bowling Ball"],
-          [7, "Toothpaste"]
-        ]).should.be.an('array')
-    })
-    it('should return an array with length 6', function () {
-      inv(
-        [
-          [21, "Bowling Ball"],
-          [2, "Dirty Sock"],
-          [1, "Hair Pin"],
-          [5, "Microphone"]
-        ],
-        [
-          [2, "Hair Pin"],
-          [3, "Half-Eaten Apple"],
-          [67, "Bowling Ball"],
-          [7, "Toothpaste"]
-        ]).should.have.length(6)
-    })
-    // updateInventory([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]) should return [[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]].
-    it('should return [[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]]', function () {
-      inv([
+  it('should return an array', function () {
+    inv(
+      [
         [21, "Bowling Ball"],
         [2, "Dirty Sock"],
         [1, "Hair Pin"],
         [5, "Microphone"]
-      ],[
+      ],
+      [
         [2, "Hair Pin"],
         [3, "Half-Eaten Apple"],
         [67, "Bowling Ball"],
         [7, "Toothpaste"]
-      ]).should.eql([[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]])
-    })
-    // updateInventory([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]], []) should return [[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]].
-    it('should return [[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]]', function () {
-      inv(
-        [
-          [21, "Bowling Ball"],
-          [2, "Dirty Sock"],
-          [1, "Hair Pin"],
-          [5, "Microphone"]
-        ], []).should.eql([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]])
-    })
-    // updateInventory([], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]) should return [[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]].
-    it('should return [[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]]', function () {
-      inv(
-        [],
-        [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]
-      ).should.eql([[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]])
-    })
-    // updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]) should return [[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]].
-    it('should return [[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]])', function () {
-      inv(
-        [[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]],
-        [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]
-      ).should.eql([[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]])
-    })
+      ]).should.be.an('array')
   })
-  context.skip('Array Search', function () {
-    it('should return true if it finds the string', function () {
-      arrSearch([[21, 'Bowling Ball'], [2, 'Dirty Sock']], 'Bowling Ball').should.equal(true)
-    })
-    it('should return true if it finds the string', function () {
-      arrSearch([[21, 'Bowling Ball'], [2, 'Dirty Sock']], 'Dirty Sock').should.equal(true)
-    })
-    it('should return false if the string is not there', function () {
-      arrSearch([[21, 'Bowling Ball'], [2, 'Cat Paws']], 'Chair Canadiens').should.equal(false)
-    })
-    it('should return false if the string is not there', function () {
-      arrSearch([[21, 'Bowling Ball'], [2, 'Cat Paws']], 21).should.equal(false)
-    })
+  it('should return an array with length 6', function () {
+    inv(
+      [
+        [21, "Bowling Ball"],
+        [2, "Dirty Sock"],
+        [1, "Hair Pin"],
+        [5, "Microphone"]
+      ],
+      [
+        [2, "Hair Pin"],
+        [3, "Half-Eaten Apple"],
+        [67, "Bowling Ball"],
+        [7, "Toothpaste"]
+      ]).should.have.length(6)
+  })
+  // updateInventory([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]) should return [[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]].
+  it('should return [[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]]', function () {
+    inv([
+      [21, "Bowling Ball"],
+      [2, "Dirty Sock"],
+      [1, "Hair Pin"],
+      [5, "Microphone"]
+    ],[
+      [2, "Hair Pin"],
+      [3, "Half-Eaten Apple"],
+      [67, "Bowling Ball"],
+      [7, "Toothpaste"]
+    ]).should.eql([[88, "Bowling Ball"], [2, "Dirty Sock"], [3, "Hair Pin"], [3, "Half-Eaten Apple"], [5, "Microphone"], [7, "Toothpaste"]])
+  })
+  // updateInventory([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]], []) should return [[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]].
+  it('should return [[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]]', function () {
+    inv(
+      [
+        [21, "Bowling Ball"],
+        [2, "Dirty Sock"],
+        [1, "Hair Pin"],
+        [5, "Microphone"]
+      ], []).should.eql([[21, "Bowling Ball"], [2, "Dirty Sock"], [1, "Hair Pin"], [5, "Microphone"]])
+  })
+  // updateInventory([], [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]) should return [[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]].
+  it('should return [[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]]', function () {
+    inv(
+      [],
+      [[2, "Hair Pin"], [3, "Half-Eaten Apple"], [67, "Bowling Ball"], [7, "Toothpaste"]]
+    ).should.eql([[67, "Bowling Ball"], [2, "Hair Pin"], [3, "Half-Eaten Apple"], [7, "Toothpaste"]])
+  })
+  // updateInventory([[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]], [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]) should return [[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]].
+  it('should return [[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]])', function () {
+    inv(
+      [[0, "Bowling Ball"], [0, "Dirty Sock"], [0, "Hair Pin"], [0, "Microphone"]],
+      [[1, "Hair Pin"], [1, "Half-Eaten Apple"], [1, "Bowling Ball"], [1, "Toothpaste"]]
+    ).should.eql([[1, "Bowling Ball"], [0, "Dirty Sock"], [1, "Hair Pin"], [1, "Half-Eaten Apple"], [0, "Microphone"], [1, "Toothpaste"]])
   })
 })
 
